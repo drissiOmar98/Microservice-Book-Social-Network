@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: transactionHistory-server
+  config:
+    import: optional:configserver:http://localhost:8888
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+
+
+server:
+  servlet:
+    context-path: /api/v1/
