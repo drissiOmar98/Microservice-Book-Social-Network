@@ -22,14 +22,6 @@ public class BookController {
 
     private final BookService service;
 
-    @PostMapping
-    public ResponseEntity<Integer> saveBook(
-            @Valid @RequestBody BookRequest request,
-            Integer connectedUserId
-    ) {
-        return ResponseEntity.ok(service.save(request, connectedUserId));
-    }
-
 
     @GetMapping("/{book-id}")
     public ResponseEntity<BookResponse> findBookById(

@@ -7,8 +7,6 @@ import com.example.bookserver.dto.BorrowedBookResponse;
 
 public interface BookService {
 
-    public Integer save(BookRequest request, Integer connectedUserId);
-
     public Integer save(BookRequest request);
 
     public BookResponse findById(Integer bookId);

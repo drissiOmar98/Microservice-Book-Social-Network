@@ -41,17 +41,6 @@ public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
 
-    @Override
-    public Integer save(BookRequest request, Integer connectedUserId) {
-        // Call the user-server API using the Feign client to get the connected user information
-        UserDto connectedUser = userClient.getUser(connectedUserId);
-
-        Book book = bookMapper.toBook(request);
-
-        book.setOwnerId(connectedUserId);
-
-        return bookRepository.save(book).getId();
-    }
 
     @Override
     public Integer save(BookRequest request) {
