@@ -54,15 +54,15 @@ ehthumbs.db
 .bundled-plugins
 
 # Ignore Spring Boot build files
-/server/**/target/
-/server/**/.mvn/
-/server/**/.idea/
-/server/**/.settings/
-/server/**/.classpath
-/server/**/.project
+/Server/**/target/
+/Server/**/.mvn/
+/Server/**/.idea/
+/Server/**/.settings/
+/Server/**/.classpath
+/Server/**/.project
 
 # Ignore Angular build files
-/client/node_modules/
-/client/dist/
-/client/.angular/cache/
-/client/.idea/
+/Client/node_modules/
+/Client/dist/
+/Client/.angular/cache/
+/Client/.idea/
