@@ -41,12 +41,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
 
-
-    @Override
-    public Integer save(BookRequest request) {
-
+    private UserDto getConnectedUser() {
         ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-
         if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
             // Handle authentication error
             throw new AuthenticationException("Failed to fetch connected user information");
@@ -56,6 +52,15 @@ public class BookServiceImpl implements BookService {
         if (connectedUser == null) {
             throw new ConnectedUserNotFoundException("Connected user information not found");
         }
+
+        return connectedUser;
+    }
+
+
+    @Override
+    public Integer save(BookRequest request) {
+        // Call the user-server API using the Feign client to get the connected user information
+        UserDto connectedUser = getConnectedUser();
 
         // Proceed with saving the book with the connected user's ID
         Book book = bookMapper.toBook(request);
@@ -75,17 +80,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public PageResponse<BookResponse> findAllBooks(int page, int size) {
         // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
-        //UserDto connectedUser = userClient.getUser(connectedUserId);
+        UserDto connectedUser = getConnectedUser();
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> books = bookRepository.findAllDisplayableBooks(pageable, connectedUser.getId());
@@ -106,17 +101,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public PageResponse<BookResponse> findAllBooksByOwner(int page, int size) {
         // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
-
+        UserDto connectedUser = getConnectedUser();
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
         Page<Book> books = bookRepository.findAll(withOwnerId(connectedUser.getId()), pageable);
         List<BookResponse> booksResponse = books.stream()
@@ -140,12 +125,12 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public Integer updateShareableStatus(Integer bookId, Integer connectedUserId) {
+    public Integer updateShareableStatus(Integer bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
 
         // Call the user-server API using the Feign client to get the connected user information
-        UserDto connectedUser = userClient.getUser(connectedUserId);
+        UserDto connectedUser = getConnectedUser();
 
         if (!Objects.equals(book.getOwnerId(), connectedUser.getId())) {
             throw new OperationNotPermittedException("You cannot update others books shareable status");
@@ -158,12 +143,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Integer updateArchivedStatus(Integer bookId, Integer connectedUserId) {
+    public Integer updateArchivedStatus(Integer bookId) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
 
         // Call the user-server API using the Feign client to get the connected user information
-        UserDto connectedUser = userClient.getUser(connectedUserId);
+        UserDto connectedUser = getConnectedUser();
 
         if (!Objects.equals(book.getOwnerId(), connectedUser.getId())) {
             throw new OperationNotPermittedException("You cannot update others books archived status");

@@ -17,9 +17,9 @@ public interface BookService {
 
     public Integer getOwnerByBookId(Integer bookId);
 
-    public Integer updateShareableStatus(Integer bookId, Integer connectedUserId);
+    public Integer updateShareableStatus(Integer bookId);
 
-    public Integer updateArchivedStatus(Integer bookId, Integer connectedUserId);
+    public Integer updateArchivedStatus(Integer bookId);
 
 
 }
