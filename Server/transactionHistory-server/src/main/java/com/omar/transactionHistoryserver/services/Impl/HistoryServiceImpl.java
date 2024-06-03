@@ -42,14 +42,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     private final BookClient bookClient;
 
-
-    @Override
-    public Integer borrowBook(Integer bookId) {
-        BookDto book = bookClient.getBookById(bookId);
-        if (book.isArchived() || !book.isShareable()) {
-            throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
-        }
-        // Call the user-server API using the Feign client to get the connected user information
+    private UserDto getConnectedUser() {
         ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
         if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
             // Handle authentication error
@@ -60,6 +53,20 @@ public class HistoryServiceImpl implements HistoryService {
         if (connectedUser == null) {
             throw new ConnectedUserNotFoundException("Connected user information not found");
         }
+
+        return connectedUser;
+    }
+
+
+
+    @Override
+    public Integer borrowBook(Integer bookId) {
+        BookDto book = bookClient.getBookById(bookId);
+        if (book.isArchived() || !book.isShareable()) {
+            throw new OperationNotPermittedException("The requested book cannot be borrowed since it is archived or not shareable");
+        }
+        // Call the user-server API using the Feign client to get the connected user information
+        UserDto connectedUser = getConnectedUser();
 
         if (Objects.equals(book.getOwnerId(), connectedUser.getId())) {
             throw new OperationNotPermittedException("You cannot borrow your own book");
@@ -94,16 +101,7 @@ public class HistoryServiceImpl implements HistoryService {
         }
 
         // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
+        UserDto connectedUser = getConnectedUser();
 
         if (Objects.equals(book.getOwnerId(), connectedUser.getId())) {
             throw new OperationNotPermittedException("You cannot borrow your own book");
@@ -126,16 +124,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 
         // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
+        UserDto connectedUser = getConnectedUser();
 
         if (!Objects.equals(book.getOwnerId(),connectedUser.getId())) {
             throw new OperationNotPermittedException("You cannot approve the return of a book you do not own");
@@ -182,16 +171,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size) {
         // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
+        UserDto connectedUser = getConnectedUser();
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
@@ -212,50 +192,6 @@ public class HistoryServiceImpl implements HistoryService {
 
     }
 
-    /*@Override
-    public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size) {
-
-        // Call the user-server API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
-
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdDate").descending());
-
-        // Fetch books owned by the user
-        List<BookDto> ownedBooks = bookClient.getBooksByOwner(connectedUser.getId());
-        if (ownedBooks == null || ownedBooks.isEmpty()) {
-            // Return an empty response if no books are found
-            return new PageResponse<>(Collections.emptyList(), page, size, 0, 0, true, true);
-        }
-        List<Integer> bookIds = ownedBooks.stream().map(BookDto::getId).collect(Collectors.toList());
-
-        // Fetch transaction histories for these books
-        Page<BookTransactionHistory> allBorrowedBooks = bookTransactionHistoryRepository.findAllByBookIdInAndReturnedTrue(pageable, bookIds);
-
-        // Map to response DTOs
-        List<BorrowedBookResponse> booksResponse = allBorrowedBooks.stream()
-                .map(bookMapper::toBorrowedBookResponse)
-                .toList();
-
-        return new PageResponse<>(
-                booksResponse,
-                allBorrowedBooks.getNumber(),
-                allBorrowedBooks.getSize(),
-                allBorrowedBooks.getTotalElements(),
-                allBorrowedBooks.getTotalPages(),
-                allBorrowedBooks.isFirst(),
-                allBorrowedBooks.isLast()
-        );
-
-    }*/
 
     @Override
     public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size) {
@@ -305,16 +241,7 @@ public class HistoryServiceImpl implements HistoryService {
     @Override
     public Optional<BookTransactionHistory> findByBookIdAndOwnerId(Integer bookId) {
         // Call the user-service API using the Feign client to get the connected user information
-        ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
-        if (responseEntity == null || responseEntity.getStatusCode() != HttpStatus.OK) {
-            // Handle authentication error
-            throw new AuthenticationException("Failed to fetch connected user information");
-        }
-
-        UserDto connectedUser = responseEntity.getBody();
-        if (connectedUser == null) {
-            throw new ConnectedUserNotFoundException("Connected user information not found");
-        }
+        UserDto connectedUser = getConnectedUser();
 
         Integer userId = connectedUser.getId();
 
