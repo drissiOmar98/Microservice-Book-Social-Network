@@ -59,6 +59,16 @@ public class BookController {
         return ResponseEntity.ok(service.findAllBooksByOwner(page, size));
     }
 
+    @GetMapping("/{bookId}/owner")
+    public ResponseEntity<Integer> getOwnerByBookId(@PathVariable("bookId") Integer bookId) {
+        Integer ownerId = service.getOwnerByBookId(bookId);
+        if (ownerId != null) {
+            return ResponseEntity.ok(ownerId);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
     @GetMapping("/borrowed")
     public ResponseEntity<PageResponse<BorrowedBookResponse>> findAllBorrowedBooks(

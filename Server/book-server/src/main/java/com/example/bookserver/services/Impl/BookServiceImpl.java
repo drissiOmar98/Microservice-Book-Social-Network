@@ -133,7 +133,12 @@ public class BookServiceImpl implements BookService {
         );
     }
 
-  @Override
+    @Override
+    public Integer getOwnerByBookId(Integer bookId) {
+        return bookRepository.findOwnerIdByBookId(bookId);
+    }
+
+    @Override
     public PageResponse<BorrowedBookResponse> findAllBorrowedBooks(int page, int size, Integer connectedUserId) {
         // Call the user-server API using the Feign client to get the connected user information
       ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();

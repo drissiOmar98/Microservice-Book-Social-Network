@@ -1,4 +1,5 @@
-package com.example.bookserver.dto;
+package com.omar.transactionHistoryserver.dto;
+
 
 import lombok.*;
 
@@ -7,16 +8,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookResponse {
+public class BookDto {
     private Integer id;
     private String title;
     private String authorName;
     private String isbn;
     private String synopsis;
-    private Integer ownerId;
-    private String owner;
-    private byte[] cover;
-    private double rate;
+    private String bookCover;
     private boolean archived;
     private boolean shareable;
+    private Integer ownerId;
+    private double rate;
 }

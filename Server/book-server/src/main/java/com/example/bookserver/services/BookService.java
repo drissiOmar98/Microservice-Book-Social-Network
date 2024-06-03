@@ -15,6 +15,8 @@ public interface BookService {
 
     public PageResponse<BookResponse> findAllBooksByOwner(int page, int size);
 
+    public Integer getOwnerByBookId(Integer bookId);
+
     public PageResponse<BorrowedBookResponse>  findAllBorrowedBooks(int page, int size, Integer connectedUserId);
 
     public PageResponse<BorrowedBookResponse>  findAllReturnedBooks(int page, int size, Integer connectedUserId);

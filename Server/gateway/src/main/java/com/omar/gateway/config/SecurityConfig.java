@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .pathMatchers(
                                 "/api/v1/auth/**",
                                 "/api/v1/books/**",
+                                "/api/v1/transactions/**",
                                 "/auth/refresh",
                                 "/guest")
                         .permitAll()
