@@ -6,6 +6,32 @@ spring:
   servlet:
     multipart:
       max-file-size: 50MB
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/feedbacks?createDatabaseIfNotExist=true
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      # expiration token
+      expiration: 86400000 # a day
+      # refresh token
+      refresh-token:
+        expiration: 604800000 # 7 days
+
 
 server:
   servlet:
