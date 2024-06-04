@@ -8,6 +8,7 @@ import com.example.bookserver.entities.Book;
 import com.example.bookserver.exception.AuthenticationException;
 import com.example.bookserver.exception.ConnectedUserNotFoundException;
 import com.example.bookserver.exception.OperationNotPermittedException;
+import com.example.bookserver.file.FileStorageService;
 import com.example.bookserver.repositories.BookRepository;
 import com.example.bookserver.services.BookService;
 import jakarta.persistence.EntityNotFoundException;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Objects;
@@ -36,6 +38,8 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     private final UserClient userClient;
+
+    private final FileStorageService fileStorageService;
 
     private final TransactionHistoryClient transactionHistoryClient;
 
@@ -159,7 +163,23 @@ public class BookServiceImpl implements BookService {
         return bookId;
     }
 
+    @Override
+    public void uploadBookCoverPicture(MultipartFile file, Integer bookId) {
 
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("No book found with ID:: " + bookId));
+
+        // Call the user-server API using the Feign client to get the connected user information
+        UserDto connectedUser = getConnectedUser();
+
+        var profilePicture = fileStorageService.saveFile(file, bookId, connectedUser.getId());
+
+        book.setBookCover(profilePicture);
+
+        bookRepository.save(book);
+
+
+    }
 
 
 }

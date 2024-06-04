@@ -30,6 +30,9 @@ application:
       # refresh token
       refresh-token:
         expiration: 604800000 # 7 days
+  file:
+    uploads:
+      photos-output-path: ./uploads
 
 server:
   servlet:

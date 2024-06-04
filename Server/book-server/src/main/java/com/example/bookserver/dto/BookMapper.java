@@ -2,6 +2,7 @@ package com.example.bookserver.dto;
 
 import com.example.bookserver.client.UserClient;
 import com.example.bookserver.entities.Book;
+import com.example.bookserver.file.FileUtils;
 import com.example.bookserver.repositories.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ public class BookMapper {
                 .shareable(book.isShareable())
                 .ownerId(book.getOwnerId())
                 .owner(ownerFullName)
-                //.cover(FileUtils.readFileFromLocation(book.getBookCover()))
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 

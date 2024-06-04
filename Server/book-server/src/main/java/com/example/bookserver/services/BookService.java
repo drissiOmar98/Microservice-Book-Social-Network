@@ -3,7 +3,7 @@ package com.example.bookserver.services;
 import com.example.bookserver.common.PageResponse;
 import com.example.bookserver.dto.BookRequest;
 import com.example.bookserver.dto.BookResponse;
-import com.example.bookserver.dto.BorrowedBookResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface BookService {
 
@@ -20,6 +20,8 @@ public interface BookService {
     public Integer updateShareableStatus(Integer bookId);
 
     public Integer updateArchivedStatus(Integer bookId);
+
+    public void uploadBookCoverPicture(MultipartFile file, Integer bookId);
 
 
 }
