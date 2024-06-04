@@ -26,3 +26,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
+
+application:
+  config:
+    auth-url: http://localhost:8222/api/v1/auth
+    book-server-url:  http://localhost:8222/api/v1/books

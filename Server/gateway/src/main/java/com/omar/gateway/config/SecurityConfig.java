@@ -34,6 +34,7 @@ public class SecurityConfig {
                                 "/api/v1/auth/**",
                                 "/api/v1/books/**",
                                 "/api/v1/transactions/**",
+                                "/api/v1/feedbacks/**",
                                 "/auth/refresh",
                                 "/guest")
                         .permitAll()

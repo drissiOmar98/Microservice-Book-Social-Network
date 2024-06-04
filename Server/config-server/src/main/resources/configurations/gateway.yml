@@ -26,6 +26,10 @@ spring:
           uri: http://localhost:8086
           predicates:
             - Path=/api/v1/transactions/**
+        - id: feedback-server
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/v1/feedbacks/**
 
 management:
   tracing:
