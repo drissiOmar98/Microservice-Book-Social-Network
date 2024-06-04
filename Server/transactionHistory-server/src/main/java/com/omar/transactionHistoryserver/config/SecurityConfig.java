@@ -45,7 +45,17 @@ public class SecurityConfig {
                 // Set permissions on endpoints
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(
-                                        "/api/v1/transactions/public"   // Allow access to public endpoints
+                                        "/api/v1/transactions/public",
+                                        "/v2/api-docs",
+                                        "/v3/api-docs",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources",
+                                        "/swagger-resources/**",
+                                        "/configuration/ui",
+                                        "/configuration/security",
+                                        "/swagger-ui/**",
+                                        "/webjars/**",
+                                        "/swagger-ui.html"// Allow access to public endpoints
                                 )
                                 .permitAll()
                                 .anyRequest() // Require authentication for other endpoints
