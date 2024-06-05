@@ -71,6 +71,19 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
+        <!-- import "webflux-ui" instead of "webmvc-ui" since the Spring Cloud Gateway is a reactive application instead of a WebMVC project-->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+
+
+
+
+
+
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
