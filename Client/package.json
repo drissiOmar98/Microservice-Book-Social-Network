@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "api-gen": "ng-openapi-gen --input src/openapi/OpenApiForAuthService.json --output src/app/services/auth-service && ng-openapi-gen --input src/openapi/OpenApiForBookService.json --output src/app/services/book-service && ng-openapi-gen --input src/openapi/OpenApiForTransactionService.json --output src/app/services/transaction-service && ng-openapi-gen --input src/openapi/OpenApiForFeedbackService.json --output src/app/services/feedback-service"
+
   },
   "private": true,
   "dependencies": {
@@ -20,6 +22,7 @@
     "@angular/router": "^17.0.0",
     "@fortawesome/fontawesome-free": "^6.5.2",
     "bootstrap": "^5.3.3",
+    "ng-openapi-gen": "^0.51.0",
     "ngx-bootstrap": "^12.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
