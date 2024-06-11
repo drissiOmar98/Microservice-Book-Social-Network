@@ -1,0 +1,214 @@
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+/* General styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Font for headers and navbar */
+.header-1, .header-2, .navbar-nav .nav-link, .navbar-brand, .user-info span {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+/* Header 1 styling */
+.header-1 {
+  background-color: #ffffff;
+  color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-1 .navbar-brand {
+  color: #000000;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.header-1 .navbar-brand .i {
+  color: #27ae60;
+}
+
+.header-1 .form-control {
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.header-1 .form-control:focus {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header-1 .btn-outline-light {
+  border-radius: 20px;
+  border: 1px solid #fff;
+  color: #fff;
+  background-color: transparent;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.header-1 .btn-outline-light:hover {
+  background-color: #fff;
+  color: #2d3748;
+}
+
+.header-1 .user-info span {
+  color: #fff;
+  margin: 0 0.5rem;
+}
+
+.header-1 .btn-link {
+  color: #fff;
+  font-size: 1.25rem;
+  transition: color 0.3s ease;
+}
+
+
+.header-1 .btn-link:hover {
+  color: #ffeb3b;
+}
+
+/* Header 2 styling */
+.header-2 {
+  background-color: #27ae60;
+  padding: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: auto; /* Set height to auto by default */
+}
+
+.header-2 .navbar {
+  padding: 0;
+}
+
+.header-2 .navbar-toggler {
+  border: none;
+}
+
+.header-2 .navbar-toggler-icon {
+  color: #fff;
+}
+
+.header-2 .navbar-nav {
+  font-size: 1.25rem; /* Increase the font size */
+}
+
+.header-2 .navbar-nav .nav-link {
+  color: #fff;
+  margin: 0 1rem; /* Adjust margin for spacing */
+  transition: color 0.3s ease;
+}
+
+.header-2 .navbar-nav .nav-link:hover {
+  color: #ffeb3b;
+}
+
+.header-2 .navbar-nav .nav-link.active {
+  color: #000000;
+  border-radius: 5px;
+}
+
+.header-2 .navbar-nav .nav-link i {
+  margin-right: 0.5rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.header-2 .navbar-nav .nav-link.active i {
+  color: #000000;
+}
+
+.header-2 .navbar-collapse {
+  justify-content: center; /* Center the nav items */
+}
+
+.header-2 .navbar-nav {
+  height: 40px; /* Increase the height */
+  display: flex;
+  align-items: center;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+  color: #2d3748;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .header-1 .container-fluid {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-1 .form-control,
+  .header-1 .btn-outline-light {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .header-1 .form-control {
+    margin-bottom: 0.5rem;
+  }
+
+  .header-1 .user-info {
+    justify-content: flex-start;
+  }
+
+  .header-2 .navbar-nav .nav-link {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .header-2 .navbar-collapse {
+    justify-content: flex-start;
+  }
+
+  /* Adjust height of .header-2 when navbar is collapsed */
+  .header-2 .navbar-nav {
+    height: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-1 .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .header-2 .navbar-nav {
+    font-size: 1rem;
+    flex-direction: column;
+  }
+
+  .header-2 .navbar-nav .nav-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-1 .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .header-2 .navbar-nav {
+    font-size: 0.875rem;
+  }
+}
