@@ -1,0 +1,89 @@
+<section>
+  <h1 class="heading"> <span>My Books list</span> </h1>
+  <hr>
+  <div class="d-flex justify-content-end mb-3">
+    <a routerLink="/books/manage" aria-current="page"  class="btn " style="margin-top: 1rem;
+  display:inline-block;
+  padding:.7rem 2rem;
+  border-radius: .4rem;
+  color:#fff;
+  background: #27ae60;
+  font-size: 1.6rem;
+  cursor: pointer;
+  font-weight: 500;">
+      <i class="fas fa-plus text-white"></i>&nbsp;New book
+    </a>
+  </div>
+  <div class="d-flex justify-content-start gap-2 flex-wrap">
+    <app-book-card
+      *ngFor="let book of bookResponse.content"
+      [book]="book"
+      [manage]="true"
+      (archive)="archiveBook($event)"
+      (share)="shareBook($event)"
+      (edit)="editBook($event)"
+      (details)="displayBookDetails($event)"
+    ></app-book-card>
+  </div>
+  <div class="d-flex justify-content-center mt-3">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li class="page-item">
+          <a
+            (click)="goToFirstPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angles-left"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a
+            (click)="goToPreviousPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Previous"
+            [class.disabled]="page === 0"
+          >
+            <i class="fa-solid fa-angle-left"></i>
+          </a>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let pageIndex of pages"
+        >
+          <a
+            (click)="gotToPage(pageIndex)"
+            class="page-link"
+            [class.active]="page === pageIndex"
+            href="javascript:void(0)"
+          >{{ pageIndex + 1 }}</a>
+        </li>
+        <li class="page-item">
+          <a
+            (click)="goToNextPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-chevron-right"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a
+            (click)="goToLastPage()"
+            class="page-link"
+            href="javascript:void(0)"
+            aria-label="Next"
+            [class.disabled]="isLastPage"
+          >
+            <i class="fa-solid fa-angles-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</section>

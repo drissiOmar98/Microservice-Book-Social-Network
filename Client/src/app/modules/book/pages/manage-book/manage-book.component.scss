@@ -1,0 +1,74 @@
+section{
+  padding:5rem 9%;
+}
+*{
+  text-transform: capitalize;
+}
+
+.heading{
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.heading::before{
+  content: '';
+  position: absolute;
+  top:50%; left:0;
+  transform: translateY(-50%);
+  width: 100%;
+  height:.01rem;
+  background: rgba(0,0,0,.1);
+  z-index: -1;
+}
+
+.heading span{
+  font-size: 3rem;
+  padding:.5rem 2rem;
+  color:#000000;
+  background: #fff;
+  border:.1rem solid rgba(0,0,0,.1);
+}
+
+.btn-outline-success {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-outline-success:hover {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+input.form-control,
+textarea.form-control {
+  border-radius: .5rem;
+  border: .1rem solid rgba(0, 0, 0, .1);
+  transition: all .3s ease-in-out;
+}
+
+input.form-control:focus,
+textarea.form-control:focus {
+  border-color: #6c757d;
+  box-shadow: 0 4px 8px rgba(108, 117, 125, .1);
+}
+
+.form-check-input:checked {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.form-check-label {
+  margin-left: .5rem;
+}
+

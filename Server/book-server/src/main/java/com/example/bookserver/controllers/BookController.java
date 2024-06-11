@@ -4,12 +4,11 @@ package com.example.bookserver.controllers;
 import com.example.bookserver.common.PageResponse;
 import com.example.bookserver.dto.BookRequest;
 import com.example.bookserver.dto.BookResponse;
-import com.example.bookserver.exception.ConnectedUserNotFoundException;
 import com.example.bookserver.services.BookService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,15 +30,8 @@ public class BookController {
     }
 
     @PostMapping("/addBook")
-    public ResponseEntity<Integer> saveBook(@RequestBody BookRequest request) {
-        // Call the save method in the BookService
-        try {
-            Integer bookId = service.save(request);
-            return ResponseEntity.ok(bookId);
-        } catch (ConnectedUserNotFoundException ex) {
-            // Handle the exception for missing connected user information
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+    public ResponseEntity<Integer> saveBook(@RequestBody @Valid BookRequest request) {
+        return ResponseEntity.ok(service.save(request));
     }
 
     @GetMapping
