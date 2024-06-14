@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface FeedBackRepository extends JpaRepository<Feedback, Integer> {
 
     @Query("""
@@ -17,4 +19,8 @@ public interface FeedBackRepository extends JpaRepository<Feedback, Integer> {
 
           """)
     Page<Feedback> findAllByBookId(@Param("bookId")Integer bookId, Pageable pageable);
+
+
+    @Query("SELECT f FROM Feedback f WHERE f.bookId = :bookId")
+    List<Feedback> getAllByBookId(@Param("bookId") Integer bookId);
 }

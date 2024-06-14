@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -81,6 +82,15 @@ public class FeedBackServiceImpl implements FeedBackService {
         );
 
 
+    }
+
+    @Override
+    public List<Double> findAllNotesByBook(Integer bookId) {
+        List<Feedback> feedbacks = feedBackRepository.getAllByBookId(bookId);
+
+        return feedbacks.stream()
+                .map(Feedback::getNote)
+                .collect(Collectors.toList());
     }
 
 

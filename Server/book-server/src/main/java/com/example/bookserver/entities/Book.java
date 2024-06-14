@@ -3,7 +3,6 @@ package com.example.bookserver.entities;
 
 
 import com.example.bookserver.client.FeedbackClient;
-import com.example.bookserver.dto.FeedbackDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
@@ -59,49 +58,32 @@ public class Book {
     private Integer ownerId;
 
 
-   /* @Transient
-    public double getRate(FeedbackClient feedbackClient) {
-        // Call the feedback-server to fetch feedbacks for this book
-        List<FeedbackDto> feedbacks = feedbackClient.getFeedbacksForBook(id);
-
-        if (feedbacks == null || feedbacks.isEmpty()) {
-            return 0.0;
-        }
-
-        // Calculate the rate based on the fetched feedbacks
-        double rate = feedbacks.stream()
-                .mapToDouble(FeedbackDto::getNote)
-                .average()
-                .orElse(0.0);
-        double roundedRate = Math.round(rate * 10.0) / 10.0;
-
-        // Return 4.0 if roundedRate is less than 4.5, otherwise return 4.5
-        return roundedRate;
-    }*/
-
     @Transient
     private FeedbackClient feedbackClient;
+
+    public void setFeedbackClient(FeedbackClient feedbackClient) {
+        this.feedbackClient = feedbackClient;
+    }
 
     @Transient
     public double getRate() {
         if (feedbackClient == null) {
-            throw new IllegalStateException("FeedbackServiceClient has not been initialized");
+            throw new IllegalStateException("FeedbackClient has not been initialized");
         }
 
-        // Call the feedback-server to fetch feedbacks for this book
-        List<FeedbackDto> feedbacks = feedbackClient.getFeedbacksForBook(id);
+        List<Double> notes = feedbackClient.getNotesForBook(id);
 
-        if (feedbacks == null || feedbacks.isEmpty()) {
+        if (notes == null || notes.isEmpty()) {
             return 0.0;
         }
 
-        // Calculate the rate based on the fetched feedbacks
-        double rate = feedbacks.stream()
-                .mapToDouble(FeedbackDto::getNote)
+        double rate = notes.stream()
+                .mapToDouble(Double::doubleValue)
                 .average()
                 .orElse(0.0);
         return Math.round(rate * 10.0) / 10.0;
     }
+
 
 
 

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("feedbacks")
 @RequiredArgsConstructor
@@ -36,6 +38,17 @@ public class FeedBackController {
     ) {
         return ResponseEntity.ok(feedBackService.findAllFeedbacksByBook(bookId, page, size));
     }
+
+    @GetMapping("/book/{book-id}/notes")
+    public ResponseEntity<List<Double>> findAllNotesByBook(
+            @PathVariable("book-id") Integer bookId
+    ) {
+        List<Double> notes = feedBackService.findAllNotesByBook(bookId);
+        return ResponseEntity.ok(notes);
+    }
+
+
+
 
 
 }

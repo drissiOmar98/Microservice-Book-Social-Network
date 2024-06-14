@@ -1,5 +1,6 @@
 package com.example.bookserver.dto;
 
+import com.example.bookserver.client.FeedbackClient;
 import com.example.bookserver.client.UserClient;
 import com.example.bookserver.entities.Book;
 import com.example.bookserver.file.FileUtils;
@@ -17,6 +18,9 @@ public class BookMapper {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private FeedbackClient feedbackClient;
 
     public Book toBook(BookRequest request) {
         return Book.builder()
@@ -36,13 +40,16 @@ public class BookMapper {
         // Construct the owner's full name using the fetched details
         String ownerFullName = owner.getFirstname() + " " + owner.getLastname();
 
+        // Set the FeedbackClient before calculating the rate
+        book.setFeedbackClient(feedbackClient);
+
         return BookResponse.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .authorName(book.getAuthorName())
                 .isbn(book.getIsbn())
                 .synopsis(book.getSynopsis())
-                //.rate(book.getRate())
+                .rate(book.getRate())
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
                 .ownerId(book.getOwnerId())
@@ -55,6 +62,9 @@ public class BookMapper {
 
         Book book = bookRepository.findById(history.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("Book with ID " + history.getBookId() + " not found"));
+
+        // Set the FeedbackClient before calculating the rate
+        book.setFeedbackClient(feedbackClient);
 
         return BorrowedBookResponse.builder()
                 .id(history.getBookId())

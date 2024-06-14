@@ -22,8 +22,8 @@ public interface BookClient {
     List<BookDto> getBooksByOwner(@PathVariable("userId") Integer userId);
 
 
-    @GetMapping("/{bookId}")
-    BookDto getBookById(@PathVariable("bookId") Integer bookId);
+    @GetMapping("/{book-id}")
+    BookDto getBookById(@PathVariable("book-id") Integer bookId);
 
     //  find all books owned by a particular user.
     @GetMapping("/owner")
