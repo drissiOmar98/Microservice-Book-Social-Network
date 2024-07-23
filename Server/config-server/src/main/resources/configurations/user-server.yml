@@ -4,14 +4,15 @@ eureka:
       defaultZone: http://discovery-server:8761/eureka
 
 server:
-  port: 8086
+  port: 8088
+
 
 spring:
   application:
-    name: transactionHistory-server
+    name: user-server
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://mysql-bsn:3306/histories?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-bsn:3306/users?createDatabaseIfNotExist=true
     username: root
     password: root
   jpa:
@@ -24,8 +25,10 @@ spring:
       hibernate:
         format_sql: true
 
-application:
-  config:
-    auth-url: http://gateway:8222/api/v1/auth
-    feedback-server-url: http://gateway:8222/api/v1/feedbacks
-    book-server-url:  http://gateway:8222/api/v1/books
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

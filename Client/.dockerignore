@@ -1,0 +1,25 @@
+# Node.js modules
+**/node_modules/
+**/npm-debug.log
+
+
+# Angular build artifacts
+**/dist/
+**/out-tsc/
+**/tmp/
+
+# Editor directories and files
+**/.vscode/
+**/.idea/
+**/.DS_Store
+
+# Environment variables
+**/.env
+
+# Logs
+**/logs/
+**/*.log
+
+# Git
+**/.git/
+

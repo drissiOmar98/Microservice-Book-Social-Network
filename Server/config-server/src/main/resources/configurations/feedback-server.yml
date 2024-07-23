@@ -1,9 +1,7 @@
 eureka:
-  instance:
-    hostname: localhost
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://discovery-server:8761/eureka
 
 server:
   port: 8087
@@ -14,9 +12,9 @@ spring:
     name: feedback-server
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/feedbacks?createDatabaseIfNotExist=true
+    url: jdbc:mysql://mysql-bsn:3306/feedbacks?createDatabaseIfNotExist=true
     username: root
-    password:
+    password: root
   jpa:
     hibernate:
       ddl-auto: update
@@ -31,5 +29,5 @@ spring:
 
 application:
   config:
-    auth-url: http://localhost:8222/api/v1/auth
-    book-server-url:  http://localhost:8222/api/v1/books
+    auth-url: http://gateway:8222/api/v1/auth
+    book-server-url:  http://gateway:8222/api/v1/books

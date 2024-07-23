@@ -1,37 +1,24 @@
 spring:
   application:
-    name: auth-service
+    name: user-server
   config:
-    import: optional:configserver:http://localhost:8888
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/users?createDatabaseIfNotExist=true
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
+    import: optional:configserver:http://config-server:8888
+
   mail:
-    host: localhost
-    port: 1025
-    username: omar
-    password: omar
+    host: smtp.gmail.com
+    port: 465
+    username: gmail_account@gmail.com
+    password:  gmail_password
     properties:
       mail:
         smtp:
-          trust: "*"
-        auth: true
-        starttls:
-          enabled: true
-        connectiontimeout: 5000
-        timeout: 3000
-        writetimeout: 5000
+          auth: true
+          ssl:
+            enable: true
+            trust: "*"
+          starttls:
+            enable: true
+    protocol: smtp
 
 application:
   security:
@@ -44,7 +31,7 @@ application:
         expiration: 604800000 # 7 days
   mailing:
     frontend:
-      activation-url: http://localhost:4200/activate-account
+      activation-url: http://localhost:8080/activate-account
   file:
       uploads:
         photos-output-path: ./uploads

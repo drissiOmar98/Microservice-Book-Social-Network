@@ -1,8 +1,8 @@
 spring:
   application:
-    name: auth-service
+    name: user-server
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-server:8888
   profiles:
     active: dev
   servlet:
@@ -17,3 +17,7 @@ server:
     context-path: /api/v1/
 
 
+logging:
+  level:
+    com.netflix.discovery: DEBUG
+    com.netflix.eureka: DEBUG

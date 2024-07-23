@@ -2,24 +2,11 @@ spring:
   application:
     name: feedback-server
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-server:8888
   servlet:
     multipart:
       max-file-size: 50MB
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/feedbacks?createDatabaseIfNotExist=true
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
-    show-sql: false
-    properties:
-      hibernate:
-        format_sql: true
+
 
 
 application:

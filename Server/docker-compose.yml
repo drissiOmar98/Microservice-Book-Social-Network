@@ -1,4 +1,25 @@
+version: '3.8'
+
 services:
+
+  ## MySQL Docker Compose Config
+  mysql:
+    container_name: mysql-bsn
+    image: mysql:8.0
+    environment:
+      MYSQL_USER: omar
+      MYSQL_PASSWORD: omar
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - bsn-api-storage:/var/lib/mysql
+      - ./init_db:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    networks:
+      - spring-demo
+    restart: unless-stopped
+
+
   mail-dev:
     container_name: mail-dev-bsn
     image: maildev/maildev
@@ -7,3 +28,165 @@ services:
       - 1025:1025
 
 
+  ## server 1: CONFIG-SERVER
+  config-server:
+    container_name: config-server
+    image: bsn/config-server:1.0.0
+    ports:
+      - 8888:8888
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+      args:
+        PROFILE: native
+        APP_VERSION: 1.0.0
+    volumes:
+      - ./config-server/src/main/resources/application.yml:/app/application.yml
+      - ./config-server/src/main/resources/configurations:/app/configurations
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      SPRING_APPLICATION_NAME: config-server
+      SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS: file:/app/configurations
+    networks:
+      - spring-demo
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8888/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+
+  ## server 2: DISCOVERY-SERVER
+  discovery-server:
+    container_name: discovery-server
+    image: bsn/discovery-server:1.0.0
+    ports:
+      - 8761:8761
+    build:
+      context: ./discovery
+      dockerfile: Dockerfile
+    networks:
+      - spring-demo
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f http://localhost:8761/actuator/health || exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+
+
+  ## server 3: Authentication server
+  user-server:
+    container_name: user-server
+    image: bsn/user-server:1.0.0
+    ports:
+      - 8088:8088
+    build:
+      context: ./user-server
+      dockerfile: Dockerfile
+    networks:
+      - spring-demo
+    depends_on:
+      - mysql
+      - config-server
+      - discovery-server
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:8761/eureka
+
+
+  ## server 4: BOOK-SERVER
+  book-server:
+    container_name: book-server
+    image: bsn/book-server:1.0.0
+    ports:
+      - 8085:8085
+    build:
+      context: ./book-server
+      dockerfile: Dockerfile
+    networks:
+      - spring-demo
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      - APPLICATION_FILE_UPLOADS_PHOTOS-OUTPUT-PATH=/app/uploads
+    depends_on:
+      - mysql
+      - config-server
+      - discovery-server
+
+  ## server 5:  FEEDBACK-SERVER
+  feedback-server:
+    container_name: feedback-server
+    image: bsn/feedback-server:1.0.0
+    ports:
+      - 8087:8087
+    build:
+      context: ./feedback-server
+      dockerfile: Dockerfile
+    networks:
+      - spring-demo
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_APPLICATION_NAME: feedback-server
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka
+    depends_on:
+      - mysql
+      - config-server
+      - discovery-server
+
+  # server 6:  TRANSACTIONHISTORY-SERVER
+  transaction-server:
+    container_name: transaction-server
+    image: bsn/transaction-server:1.0.0
+    ports:
+      - 8086:8086
+    build:
+      context: ./transactionHistory-server
+      dockerfile: Dockerfile
+    networks:
+      - spring-demo
+    depends_on:
+      - mysql
+      - config-server
+      - discovery-server
+
+
+  ## server 7: API-GATEWAY
+  gateway:
+    container_name: gateway
+    image: bsn/gateway:1.0.0
+    ports:
+      - 8222:8222
+    networks:
+      - spring-demo
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    depends_on:
+      - config-server
+      - user-server
+      - book-server
+
+
+
+
+
+  bsn-ui:
+    container_name: bsn-ui
+    image: bsn/bsn-ui:1.0.0
+    ports:
+      - 8080:80
+    networks:
+      - spring-demo
+
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  bsn-api-storage:
+    driver: local

@@ -33,7 +33,9 @@ public class AppConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "http://localhost:8222"
+                "http://localhost:8222",
+                "http://localhost:8080"
+
         ));
         config.setAllowedHeaders(Arrays.asList(
                 HttpHeaders.ORIGIN,
