@@ -10,6 +10,7 @@ import {
 import {BookResponse} from "../../../../services/book-service/models/book-response";
 import {FeedbackRequest} from "../../../../services/feedback-service/models/feedback-request";
 import {BorrowedBookResponse} from "../../../../services/transaction-service/models/borrowed-book-response";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-borrowed-book-list',
@@ -31,6 +32,7 @@ export class BorrowedBookListComponent  implements OnInit {
 
   constructor(
     private bookService: BookService,
+    private toastService: ToastrService,
     private feedbackService: FeedbackService,
     private transactionService: BookTransactionHistoryService,
   ) {
@@ -93,6 +95,7 @@ export class BorrowedBookListComponent  implements OnInit {
         if (withFeedback) {
           this.giveFeedback();
         }
+        this.toastService.success('Book has been returned and the owner is notified', 'Success');
         this.selectedBook = undefined;
         this.findAllBorrowedBooks();
       }

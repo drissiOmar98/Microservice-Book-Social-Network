@@ -6,6 +6,7 @@ import {BookResponse} from "../../../../services/book-service/models/book-respon
 import {
   BookTransactionHistoryService
 } from "../../../../services/transaction-service/services/book-transaction-history.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-book-list',
@@ -23,7 +24,8 @@ export class BookListComponent implements OnInit {
   constructor(
     private transactionHistoryService: BookTransactionHistoryService,
     private bookService: BookService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastrService
   ) {
   }
 
@@ -93,13 +95,15 @@ export class BookListComponent implements OnInit {
       'book-id': book.id as number
     }).subscribe({
       next: () => {
-        this.level = 'success';
-        this.message = 'Book successfully added to your list';
+        /*this.level = 'success';
+        this.message = 'Book successfully added to your list';*/
+        this.toastService.success('Book successfully added to your list', 'Done!')
       },
       error: (err) => {
-        console.log(err);
+        /*console.log(err);
         this.level = 'error';
-        this.message = err.error.error;
+        this.message = err.error.error;*/
+        this.toastService.error(err.error.error, 'Oups!!')
       }
     });
   }

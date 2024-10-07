@@ -11,6 +11,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
 import {HttpTokenInterceptor} from "./services/interceptor/http-token.interceptor";
+import {ToastrModule} from "ngx-toastr";
+
+
 
 
 @NgModule({
@@ -26,7 +29,15 @@ import {HttpTokenInterceptor} from "./services/interceptor/http-token.intercepto
     FormsModule,
     HttpClientModule,
     CommonModule,
-    CodeInputModule
+    CodeInputModule,
+    ToastrModule.forRoot({
+      progressBar: true,
+      closeButton: true,
+      newestOnTop: true,
+      tapToDismiss: true,
+      positionClass: 'toast-top-right',
+      timeOut: 8000
+    })
 
 
   ],
@@ -36,8 +47,7 @@ import {HttpTokenInterceptor} from "./services/interceptor/http-token.intercepto
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
       multi: true
-    },
-
+    }
   ],
   bootstrap: [AppComponent]
 })
