@@ -47,7 +47,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**",
                                 "/swagger-ui.html",
-                                "/api/v1/v3/api-docs")
+                                "/api/v1/v3/api-docs",
+                                "/ws/**"  // Permit WebSocket connections
+                        )
                         .permitAll()
                         .anyExchange().authenticated()
                 )
