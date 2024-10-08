@@ -1,12 +1,10 @@
 package com.omar.transactionHistoryserver.services.Impl;
 
 import com.omar.transactionHistoryserver.Client.BookClient;
+import com.omar.transactionHistoryserver.Client.NotificationClient;
 import com.omar.transactionHistoryserver.Client.UserClient;
 import com.omar.transactionHistoryserver.common.PageResponse;
-import com.omar.transactionHistoryserver.dto.BookDto;
-import com.omar.transactionHistoryserver.dto.BorrowedBookResponse;
-import com.omar.transactionHistoryserver.dto.UserDto;
-import com.omar.transactionHistoryserver.dto.bookMapper;
+import com.omar.transactionHistoryserver.dto.*;
 import com.omar.transactionHistoryserver.entities.BookTransactionHistory;
 import com.omar.transactionHistoryserver.exception.AuthenticationException;
 import com.omar.transactionHistoryserver.exception.ConnectedUserNotFoundException;
@@ -29,6 +27,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.omar.transactionHistoryserver.dto.NotificationStatus.*;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +41,8 @@ public class HistoryServiceImpl implements HistoryService {
     private final bookMapper bookMapper;
 
     private final BookClient bookClient;
+
+    private final NotificationClient notificationClient;
 
     private UserDto getConnectedUser() {
         ResponseEntity<UserDto> responseEntity = userClient.getCurrentUser();
@@ -89,6 +91,13 @@ public class HistoryServiceImpl implements HistoryService {
                 .returned(false)
                 .returnApproved(false)
                 .build();
+        notificationClient.sendNotification(
+                String.valueOf(book.getOwnerId()),
+                Notification.builder()
+                        .status(BORROWED)
+                        .message("Your book has been borrowed")
+                        .bookTitle(book.getTitle())
+                        .build());
         return bookTransactionHistoryRepository.save(bookTransactionHistory).getId();
 
     }
@@ -111,7 +120,17 @@ public class HistoryServiceImpl implements HistoryService {
                 .orElseThrow(() -> new OperationNotPermittedException("You did not borrow this book"));
 
         bookTransactionHistory.setReturned(true);
-        return bookTransactionHistoryRepository.save(bookTransactionHistory).getId();
+        var saved = bookTransactionHistoryRepository.save(bookTransactionHistory);
+        notificationClient.sendNotification(
+                String.valueOf(book.getOwnerId()),
+                Notification.builder()
+                        .status(RETURNED)
+                        .message("Your book has been returned")
+                        .bookTitle(book.getTitle())
+                        .build()
+        );
+
+        return saved.getId();
 
     }
 
@@ -142,7 +161,16 @@ public class HistoryServiceImpl implements HistoryService {
 
         // Approve return
         transaction.setReturnApproved(true);
-        return bookTransactionHistoryRepository.save(transaction).getId();
+        var saved = bookTransactionHistoryRepository.save(transaction);
+        notificationClient.sendNotification(
+                String.valueOf(transaction.getCreatedBy()),
+                Notification.builder()
+                        .status(RETURN_APPROVED)
+                        .message("Your book return has been approved")
+                        .bookTitle(book.getTitle())
+                        .build()
+        );
+        return saved.getId();
     }
 
     public Integer getBookOwnerId(Integer bookId) {

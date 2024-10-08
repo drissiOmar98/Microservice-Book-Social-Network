@@ -171,8 +171,20 @@ services:
       - user-server
       - book-server
 
-
-
+  ## server 8: NOTIFICATION_SERVER
+  notification-server:
+    container_name: notification-server
+    image: bsn/notification-server:1.0.0
+    ports:
+      - 8070:8070
+    networks:
+      - spring-demo
+    build:
+      context: ./notification-server
+      dockerfile: Dockerfile
+    depends_on:
+      - config-server
+      - discovery-server
 
 
   bsn-ui:

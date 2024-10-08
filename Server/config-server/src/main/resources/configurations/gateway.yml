@@ -30,6 +30,10 @@ spring:
           uri: http://feedback-server:8087
           predicates:
             - Path=/api/v1/feedbacks/**
+        - id: notification-server
+          uri: http://notification-server:8070
+          predicates:
+            - Path=/api/v1/notifications/**
 
 
 

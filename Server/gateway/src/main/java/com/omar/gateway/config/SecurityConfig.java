@@ -35,6 +35,7 @@ public class SecurityConfig {
                                 "/api/v1/books/**",
                                 "/api/v1/transactions/**",
                                 "/api/v1/feedbacks/**",
+                                "/api/v1/notifications/**",
                                 "/auth/refresh",
                                 "/guest",
                                 "/v2/api-docs",
