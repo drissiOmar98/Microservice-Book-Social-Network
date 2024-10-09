@@ -27,7 +27,7 @@
     "ng-openapi-gen": "^0.51.0",
     "ngx-bootstrap": "^12.0.0",
     "ngx-toastr": "^19.0.0",
-    "quill": "^1.3.7",
+    "quill": "^2.0.2",
     "rxjs": "~7.8.0",
     "sockjs-client": "^1.6.1",
     "stompjs": "^2.3.3",
@@ -36,6 +36,8 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.10",
+    "@types/sockjs-client": "^1.5.4",
+    "@types/stompjs": "^2.3.9",
     "@angular/cli": "^17.0.10",
     "@angular/compiler-cli": "^17.0.0",
     "@types/jasmine": "~5.1.0",

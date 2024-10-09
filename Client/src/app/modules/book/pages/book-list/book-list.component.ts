@@ -16,7 +16,7 @@ import {ToastrService} from "ngx-toastr";
 export class BookListComponent implements OnInit {
   pages: any = [];
   page= 0;
-  size= 5;
+  size= 4;
   message = '';
   bookResponse: PageResponseBookResponse = {};
   level: 'success' |'error' = 'success';

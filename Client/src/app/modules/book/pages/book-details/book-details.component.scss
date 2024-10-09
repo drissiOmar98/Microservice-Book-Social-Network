@@ -1,0 +1,51 @@
+.feedback-section {
+  background-color: #f8f9fa; /* Light background for the comments section */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Padding around the section */
+}
+
+.comments-title {
+  font-size: 1.5rem; /* Title size */
+  margin-bottom: 1.5rem; /* Spacing below the title */
+  font-weight: bold; /* Bold title */
+}
+
+.feedback-entry {
+  border-bottom: 1px solid #e0e0e0; /* Light border for separation */
+}
+
+.user-avatar {
+  flex-shrink: 0; /* Prevent the avatar from shrinking */
+}
+
+.feedback-info {
+  display: flex;
+  flex-direction: column; /* Stack user name and time */
+}
+
+.user-name {
+  font-weight: bold; /* Bold user name */
+}
+
+.feedback-time {
+  font-size: 0.9rem; /* Smaller font for time */
+}
+
+.feedback-note {
+  margin-left: 0.5rem; /* Space between rating and note */
+  font-weight: bold; /* Make note bold */
+}
+
+.feedback-comment {
+  margin-top: 0.5rem; /* Spacing above comment */
+  line-height: 1.4; /* Improve readability */
+}
+
+.reply-option {
+  margin-top: 1rem; /* Space above reply option */
+}
+
+.reply-option a {
+  text-decoration: none; /* Remove underline from link */
+  font-size: 0.9rem; /* Smaller font for reply */
+}

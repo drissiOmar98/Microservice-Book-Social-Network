@@ -134,7 +134,7 @@ body {
   align-items: center;
 }
 
-/* Dropdown menu styling */
+//* Dropdown menu styling */
 .dropdown-menu {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
@@ -143,14 +143,26 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Dropdown item styling */
 .dropdown-item {
   color: #2d3748;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Hover effect for dropdown items */
 .dropdown-item:hover {
-  background-color: #27ae60;
-  color: #fff;
+  background-color: #27ae60; /* Green background on hover */
+  color: #fff; /* White text on hover */
+}
+
+/* Specific styling for notification items */
+.notification-item {
+  color: #2d3748; /* Default color for notification items */
+}
+
+/* Optional: Make the notifications icon stand out more */
+.notification-item .fas {
+  color: #000000; /* Change the bell icon color */
 }
 
 /* Responsive styling */
@@ -212,4 +224,9 @@ body {
   .header-2 .navbar-nav {
     font-size: 0.875rem;
   }
+}
+
+.fas.fa-bell {
+  font-size: 1.5rem; /* Increase the size of the icon */
+  color: black;    /* Change the icon color to black */
 }

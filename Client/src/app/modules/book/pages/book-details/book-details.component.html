@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div class="feedback-section mb-4">
+<!--<div class="feedback-section mb-4">
   <div class="feedback-entry p-2 mb-3 border-bottom" *ngFor="let feedback of feedbacks.content">
     <div class="d-flex align-items-center gap-2 mb-1">
       <app-rating [rating]="feedback.note || 0"></app-rating>
@@ -43,7 +43,28 @@
     </div>
     <p class="text-muted">{{ feedback.comment }}</p>
   </div>
+</div>-->
+<div class="feedback-section mb-4">
+  <h4 class="comments-title">Comments ({{ feedbacks.totalElements || 0 }})</h4>
+  <div class="feedback-entry p-3 mb-3 border-bottom" *ngFor="let feedback of feedbacks.content">
+    <div class="d-flex align-items-center mb-2">
+      <div class="symbol symbol-30px symbol-md-40px">
+        <img src="assets/media/avatars/300-1.jpg" alt="User Avatar" />
+      </div>
+      <div class="feedback-info ms-3">
+        <strong class="user-name"></strong>
+        <span class="feedback-time text-muted"></span>
+      </div>
+      <p class="feedback-comment text-muted"><strong>{{ feedback.comment }}</strong></p>
+    </div>
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <app-rating [rating]="feedback.note || 0"></app-rating>
+      <strong class="feedback-note">{{ feedback.note }}</strong>
+    </div>
+
+  </div>
 </div>
+
 
 <div class="d-flex justify-content-center mt-4">
   <nav aria-label="Page navigation example">
