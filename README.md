@@ -12,7 +12,7 @@
 
 ## 📄 Overview
 
-Book Social Network is a full-stack application that enables users to manage their book collections and engage with a community of book enthusiasts. This application is built with a microservice architecture to ensure modularity, scalability, and maintainability.
+Book Social Network is a full-stack application that enables users to manage their book collections and engage with a community of book enthusiasts. This application is built with a microservice architecture to ensure modularity, scalability, and maintainability. It also features real-time notifications powered by WebSockets, allowing users to receive instant updates on activities such as book borrow requests, returns, and feedback. This ensures users stay engaged and informed, creating a dynamic and interactive experience within the book-loving community.
 
 ## ✨ Features
 
@@ -21,6 +21,7 @@ Book Social Network is a full-stack application that enables users to manage the
 - 🔄 Book borrowing with availability checks
 - ✅ Book return functionality and approval of returns
 - ⭐ User feedback and reviews
+- 🔔 Real-time notifications using WebSocket for updates and interactions
 - 🔐 Secure authentication and authorization with JWT tokens
 - 🛠️ Adheres to REST API best practices
 
@@ -35,6 +36,7 @@ The application consists of the following microservices:
 - **⚙️ CONFIG-SERVER**: Centralized configuration management for all microservices.
 - **🌐 GATEWAY-SERVER**: Acts as an entry point to the system, routing requests to appropriate microservices.
 - **🔍 DISCOVERY-SERVER**: Enables service discovery, allowing microservices to locate each other.
+- **🔔 NOTIFICATION-SERVER**: Provides real-time notifications via WebSocket for user actions, such as borrowing and returning books.
 
 
 
@@ -56,15 +58,17 @@ The application consists of the following microservices:
 - 📊 Spring Cloud Zipkin (Tracing and Monitoring)
 - 🏘️ Spring Cloud OpenFeign (Declarative REST Client)
 - 💾 MySQL (Database)
-
+- 📡 WebSocket for real-time communication
 
 ### Frontend
 
-- 🌐 Angular
+- 🌐 Angular 17 
 - 🎨 Bootstrap for styling
 - ⏳ Lazy Loading
 - 🔒 Authentication Guard
 - 📖 OpenAPI Generator for Angular
+- 🔄 rxjs for reactive programming
+- 🔌 sockjs-client and stompjs for WebSocket communication
 
 
 
