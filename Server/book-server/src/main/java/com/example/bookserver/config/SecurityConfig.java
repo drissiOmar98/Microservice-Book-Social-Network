@@ -55,7 +55,8 @@ public class SecurityConfig {
                                         "/configuration/security",
                                         "/swagger-ui/**",
                                         "/webjars/**",
-                                        "/swagger-ui.html"// Allow access to public endpoints
+                                        "/swagger-ui.html",
+                                        "/actuator/prometheus"// Allow access to public endpoints
                                 )
                                 .permitAll()
                                 .anyRequest() // Require authentication for other endpoints

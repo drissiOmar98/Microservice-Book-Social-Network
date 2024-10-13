@@ -27,8 +27,16 @@ spring:
         format_sql: true
 
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 application:
   config:
     auth-url: http://gateway:8222/api/v1/auth
     feedback-service-url: http://gateway:8222/api/v1/feedbacks
     transaction-history-service-url:  http://gateway:8222/api/v1/histories
+
+

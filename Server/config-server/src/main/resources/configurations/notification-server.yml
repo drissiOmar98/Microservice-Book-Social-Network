@@ -10,3 +10,8 @@ spring:
   application:
     name: notification-server
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

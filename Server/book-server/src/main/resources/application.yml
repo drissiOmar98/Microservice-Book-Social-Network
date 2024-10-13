@@ -29,3 +29,5 @@ server:
 
 springdoc:
   default-produces-media-type: application/json
+
+

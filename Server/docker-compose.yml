@@ -195,6 +195,30 @@ services:
     networks:
       - spring-demo
 
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - spring-demo
+    depends_on:
+      - user-server
+      - book-server
+      - transaction-server
+      - feedback-server
+      - notification-server
+      - gateway
+      - discovery-server
+      - config-server
+    restart: unless-stopped
+
+
+
+
 networks:
   spring-demo:
     driver: bridge

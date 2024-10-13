@@ -1,0 +1,77 @@
+global:
+  scrape_interval: 10s  # Scrape targets every 10 seconds
+  evaluation_interval: 10s
+
+
+scrape_configs:
+  # Job for User Server
+  - job_name: 'user_server'
+    metrics_path: '/api/v1/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['user-server:8088']
+        labels:
+          application: 'User Server Microservice'
+
+  # Job for Book Server
+  - job_name: 'book_server'
+    metrics_path: '/api/v1/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['book-server:8085']
+        labels:
+          application: 'Book Server Microservice'
+
+  # Job for Feedback Server
+  - job_name: 'feedback_server'
+    metrics_path: '/api/v1/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['feedback-server:8087']
+        labels:
+          application: 'Feedback Server Microservice'
+
+  # Job for Transaction History Server
+  - job_name: 'transaction_server'
+    metrics_path: '/api/v1/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['transaction-server:8086']
+        labels:
+          application: 'Transaction History Server'
+
+  # Job for Gateway
+  - job_name: 'gateway'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['gateway:8222']
+        labels:
+          application: 'API Gateway'
+
+  # Job for Notification Server
+  - job_name: 'notification_server'
+    metrics_path: '/api/v1/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['notification-server:8070']
+        labels:
+          application: 'Notification Server'
+
+  # Job for Config Server
+  - job_name: 'config_server'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['config-server:8888']
+        labels:
+          application: 'Config Server'
+
+  # Job for Discovery Server
+  - job_name: 'discovery_server'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['discovery-server:8761']
+        labels:
+          application: 'Discovery Server'

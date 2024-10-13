@@ -25,7 +25,11 @@ spring:
       hibernate:
         format_sql: true
 
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 application:
   config:

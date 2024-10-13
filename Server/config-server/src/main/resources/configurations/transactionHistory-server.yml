@@ -24,6 +24,13 @@ spring:
       hibernate:
         format_sql: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+
 application:
   config:
     auth-url: http://gateway:8222/api/v1/auth
