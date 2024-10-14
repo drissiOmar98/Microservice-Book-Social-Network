@@ -24,7 +24,7 @@ Book Social Network is a full-stack application that enables users to manage the
 - 🔔 Real-time notifications using WebSocket for updates and interactions
 - 🔐 Secure authentication and authorization with JWT tokens
 - 🛠️ Adheres to REST API best practices
-
+- 📊 **Observability Stack**: Integrated with **Prometheus** for metrics collection, **Tempo** for distributed tracing, **Zipkin** for trace collection, **Loki** for logging, and **Grafana** for visualization and monitoring.
 ## 🏗️ Microservice Architecture
 
 The application consists of the following microservices:
@@ -59,6 +59,11 @@ The application consists of the following microservices:
 - 🏘️ Spring Cloud OpenFeign (Declarative REST Client)
 - 💾 MySQL (Database)
 - 📡 WebSocket for real-time communication
+- 📊 Spring Cloud Zipkin (Tracing and Monitoring)
+- 🌀 Tempo (Distributed Tracing)
+- 📜 Loki (Log Aggregation)
+- 📈 Prometheus (Monitoring and Metrics Collection)
+- 📊 Grafana (Data Visualization)
 
 ### Frontend
 
