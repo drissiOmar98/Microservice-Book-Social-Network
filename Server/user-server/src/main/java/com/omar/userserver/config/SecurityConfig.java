@@ -45,7 +45,11 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/webjars/**",
                                         "/swagger-ui.html",
-                                        "/actuator/prometheus"
+                                        "/actuator/prometheus",
+                                        "/zipkin/**",
+                                        "/tempo/**",          // Allow Tempo access
+                                        "/loki/api/**",       // Allow Loki access
+                                        "/grafana/**"         // Allow Grafana access
                                 )
                                 .permitAll()
                                 .anyRequest()

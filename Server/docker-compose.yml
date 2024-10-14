@@ -196,6 +196,7 @@ services:
       - spring-demo
 
 
+  # Prometheus Config
   prometheus:
     container_name: prometheus
     image: prom/prometheus
@@ -215,6 +216,66 @@ services:
       - discovery-server
       - config-server
     restart: unless-stopped
+
+   #Zipkin Config
+#  zipkin:
+#    container_name: zipkin
+#    image: openzipkin/zipkin
+#    ports:
+#      - "9411:9411"
+#    depends_on:
+#      - user-server
+#      - book-server
+#      - transaction-server
+#      - feedback-server
+#      - notification-server
+#      - gateway
+#      - discovery-server
+#      - config-server
+#    networks:
+#      - spring-demo
+
+  # Tempo Config
+  tempo:
+    image: grafana/tempo
+    container_name: tempo
+    command: [ "-config.file=/etc/tempo.yaml" ]
+    volumes:
+      - ./docker/tempo/tempo.yml:/etc/tempo.yaml:ro
+      - ./docker/tempo/tempo-data:/tmp/tempo
+    ports:
+      - "3200:3200" # Tempo
+      - "9411:9411" # zipkin
+    networks:
+      - spring-demo
+
+  # Loki Config
+  loki:
+    image: grafana/loki:main
+    container_name: loki
+    command: [ "-config.file=/etc/loki/local-config.yaml" ]
+    ports:
+      - "3100:3100"
+    networks:
+      - spring-demo
+
+  # Grafana Config
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - ./docker/grafana:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=password
+    networks:
+      - spring-demo
+
 
 
 

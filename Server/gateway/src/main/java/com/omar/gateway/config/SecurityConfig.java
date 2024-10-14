@@ -50,7 +50,11 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/api/v1/v3/api-docs",
                                 "/ws/**"  ,// Permit WebSocket connections
-                                "/actuator/prometheus"
+                                "/actuator/prometheus",
+                                "/zipkin/**",
+                                "/tempo/**",          // Allow Tempo access
+                                "/loki/api/**",       // Allow Loki access
+                                "/grafana/**"         // Allow Grafana access
                         )
                         .permitAll()
                         .anyExchange().authenticated()

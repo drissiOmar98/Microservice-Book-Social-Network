@@ -51,7 +51,11 @@ public class SecurityConfig {
                                         "/webjars/**",
                                         "/swagger-ui.html",// Allow access to public endpoints
                                         "/ws/**",
-                                        "/actuator/prometheus"
+                                        "/actuator/prometheus",
+                                        "/zipkin/**",
+                                        "/tempo/**",          // Allow Tempo access
+                                        "/loki/api/**",       // Allow Loki access
+                                        "/grafana/**"         // Allow Grafana access
                                 )
                                 .permitAll()
                                 .anyRequest() // Require authentication for other endpoints
